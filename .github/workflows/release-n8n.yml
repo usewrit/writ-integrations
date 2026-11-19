@@ -68,18 +68,19 @@ jobs:
             if (files.some(f => f.startsWith("test/") || f.endsWith(".ts") && !f.endsWith(".d.ts"))) { console.error("sources in tarball"); process.exit(1); }
           '
 
-      # Authentication: npm trusted publishing (OIDC) once the package exists and has this
-      # workflow as its trusted publisher. npm only accepts a trusted publisher for a package
-      # that is already on the registry, so the FIRST release uses an NPM_TOKEN secret on the
-      # npm-publish environment; delete the secret after trusted publishing is set up. Either
-      # way the tarball carries a provenance statement signed by this workflow.
-      - name: Publish with provenance
+      # Authentication: npm trusted publishing (OIDC) from the npm-publish environment.
+      # The trusted publisher is allowed to STAGE only: the release waits on npmjs.com until a
+      # maintainer approves it with 2FA (Settings of the package, staged versions). A one-time
+      # NPM_TOKEN secret on the environment is used instead when present (npm accepts a trusted
+      # publisher only for a package that exists, so the very first release needed one).
+      # Either way the tarball carries a provenance statement signed by this workflow.
+      - name: Stage the release (approve it on npmjs.com)
         if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
         run: |
           if [ -n "$NPM_TOKEN" ]; then
             npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
           fi
-          npm publish --provenance --access public
+          npm stage publish --provenance --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           # The package's prepublishOnly (`n8n-node prerelease`) refuses a publish outside
@@ -88,6 +89,6 @@ jobs:
 
       - name: Publish dry run
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
-        run: npm publish --dry-run --access public
+        run: npm stage publish --dry-run --access public
         env:
           RELEASE_MODE: "true"
