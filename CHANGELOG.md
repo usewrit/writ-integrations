@@ -6,6 +6,8 @@ All notable changes to the Writ integrations. Each entry names the integration i
 
 - Both: CI runs on Node 22 and 24 and the packages require Node 22 or later (the n8n and Zapier
   tooling no longer supports Node 20). The Zapier release workflow file now parses.
+- n8n: the release workflow publishes through npm trusted publishing, or with a one-time
+  `NPM_TOKEN` for the first release (npm only trusts a publisher for an existing package).
 
 ## n8n 0.1.0 and Zapier 0.1.0 (first release)
 
