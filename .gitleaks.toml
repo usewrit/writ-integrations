@@ -1,0 +1,19 @@
+# gitleaks configuration. The publish pipeline runs `gitleaks detect --no-git` over this
+# tree and fails closed on any finding.
+#
+# Both integrations prove they verify Writ's webhook signature byte for byte with a
+# GOLDEN VECTOR: a published test secret and a delivery Writ's own signer signed with it.
+# The secret is a counting sequence and was never a live credential. The exception is
+# pinned to the two fixture files AND to that exact literal, so a real secret landing in
+# either file is still caught.
+
+title = "writ-integrations"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Webhook signature golden vector: published test secret (counting sequence)"
+condition = "AND"
+paths = ['''(^|/)n8n/test/fixtures/signed-delivery\.json$''', '''(^|/)zapier/test/signed-delivery\.json$''']
+regexes = ['''0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef''']

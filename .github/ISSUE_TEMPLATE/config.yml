@@ -1,0 +1,17 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Writ itself (your account, workflows, monitors, billing)
+    url: https://usewrit.app/contact
+    about: Problems with Writ that are not about the n8n node or the Zapier app.
+
+  - name: The MCP connector
+    url: https://github.com/usewrit/writ-mcp/issues
+    about: Connecting Claude, Cursor and other AI assistants to Writ.
+
+  - name: The SDKs
+    url: https://github.com/usewrit/writ-sdks/issues
+    about: TypeScript, Python, Go and Rust clients.
+
+  - name: Report a security vulnerability
+    url: https://github.com/usewrit/writ-integrations/security/advisories/new
+    about: Please report privately, never as a public issue.

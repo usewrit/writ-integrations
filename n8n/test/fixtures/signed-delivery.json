@@ -1,0 +1,7 @@
+{
+  "secret": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "timestamp": "1795600000",
+  "raw_body": "{\"event\": \"workflow_completed\", \"event_id\": \"evt_7a2d4e6f8b0c1d3e5f7a9b1c3d5e7f90\", \"timestamp\": \"2026-11-19T14:03:00Z\", \"data\": {\"workflow\": {\"id\": 318, \"name\": \"Hacker News front page\"}, \"run\": {\"id\": 77120, \"status\": \"success\", \"success\": true, \"error\": null, \"duration_ms\": 8420, \"steps_completed\": 4, \"completed_at\": \"2026-11-19T14:03:00Z\"}, \"target_id\": null, \"extracted_data\": [{\"title\": \"Show HN: Writ\", \"points\": 128}], \"data_truncated\": false, \"links\": {\"run\": \"/api/v1/workflows/318/runs/77120\"}}}",
+  "signature_v1": "sha256=524662639b172fdd6a51160e60719673a9cfba505c23193dc2917df7f14dddbf",
+  "note": "Signed by the same code Writ uses for real deliveries. The secret is a published test value, never a live one."
+}

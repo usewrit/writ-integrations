@@ -1,0 +1,69 @@
+{
+  "name": "n8n-nodes-writ",
+  "version": "0.1.0",
+  "description": "Writ for n8n: scrape and map pages, crawl sites, run your Writ workflows and monitors, and trigger on Writ events.",
+  "license": "MIT",
+  "homepage": "https://github.com/usewrit/writ-integrations/tree/main/n8n#readme",
+  "bugs": {
+    "url": "https://github.com/usewrit/writ-integrations/issues"
+  },
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "writ",
+    "scraping",
+    "web-scraping",
+    "crawler",
+    "website-to-api",
+    "monitoring"
+  ],
+  "author": {
+    "name": "The Writ Project Authors",
+    "email": "support@usewrit.app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/usewrit/writ-integrations.git",
+    "directory": "n8n"
+  },
+  "engines": {
+    "node": ">=20.15"
+  },
+  "scripts": {
+    "build": "n8n-node build",
+    "build:watch": "tsc --watch",
+    "dev": "n8n-node dev",
+    "lint": "n8n-node lint",
+    "lint:fix": "n8n-node lint --fix",
+    "test": "vitest run",
+    "release": "n8n-node release",
+    "prepublishOnly": "n8n-node prerelease"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": true,
+    "credentials": [
+      "dist/credentials/WritApi.credentials.js",
+      "dist/credentials/WritOAuth2Api.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/Writ/Writ.node.js",
+      "dist/nodes/WritTrigger/WritTrigger.node.js",
+      "dist/nodes/WritChangesTrigger/WritChangesTrigger.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@n8n/node-cli": "0.57.4",
+    "eslint": "9.32.0",
+    "prettier": "3.6.2",
+    "release-it": "^21.1.0",
+    "typescript": "5.9.2",
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
+}

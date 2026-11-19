@@ -1,0 +1,66 @@
+name: CI
+
+# Two integrations, one contract (DESIGN.md). Each has its own job so a failure names it.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  n8n:
+    name: n8n (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: n8n
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["20", "22"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: n8n/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - name: n8n community-node lint (no errors, no warnings)
+        run: npm run lint
+      - run: npm test
+      - name: No runtime dependencies
+        run: node -e 'const d=require("./package.json").dependencies||{}; if(Object.keys(d).length){console.error("runtime dependencies:",d);process.exit(1)}'
+      - name: Every node and credential the package declares was built
+        run: node -e 'const p=require("./package.json").n8n; for (const f of [...p.nodes,...p.credentials]) require("fs").statSync(f)'
+
+  zapier:
+    name: Zapier (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: zapier
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["20", "22"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: zapier/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - name: Schema validation
+        run: npx zapier-platform validate --without-style

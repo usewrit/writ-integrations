@@ -1,0 +1,29 @@
+{
+  "name": "writ-zapier",
+  "version": "0.1.0",
+  "description": "Writ on Zapier: scrape and map pages, crawl sites, run Writ workflows and monitors, and start Zaps from Writ events.",
+  "private": true,
+  "license": "MIT",
+  "author": "The Writ Project Authors",
+  "homepage": "https://github.com/usewrit/writ-integrations/tree/main/zapier#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/usewrit/writ-integrations.git",
+    "directory": "zapier"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "validate": "zapier-platform validate"
+  },
+  "dependencies": {
+    "zapier-platform-core": "19.3.0"
+  },
+  "devDependencies": {
+    "zapier-platform-cli": "19.3.0",
+    "vitest": "^3.2.4"
+  }
+}

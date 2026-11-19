@@ -1,0 +1,14 @@
+{
+	"node": "n8n-nodes-writ.writTrigger",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Data & Storage", "Development"],
+	"resources": {
+		"credentialDocumentation": [
+			{ "url": "https://github.com/usewrit/writ-integrations/tree/main/n8n#credentials" }
+		],
+		"primaryDocumentation": [
+			{ "url": "https://github.com/usewrit/writ-integrations/tree/main/n8n#readme" }
+		]
+	}
+}

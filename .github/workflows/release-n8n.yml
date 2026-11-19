@@ -1,0 +1,74 @@
+name: Release - n8n
+
+# n8n requires community nodes to be published from GitHub Actions with npm provenance.
+#
+#   git tag n8n-v0.1.0 && git push origin n8n-v0.1.0
+on:
+  push:
+    tags:
+      - "n8n-v*"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build and verify, but do not publish"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish n8n-nodes-writ
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    permissions:
+      contents: read
+      # npm provenance: binds the tarball to this workflow, repo and commit.
+      id-token: write
+    defaults:
+      run:
+        working-directory: n8n
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      # Provenance needs npm >= 9.5; trusted publishing needs >= 11.5.1.
+      - name: Use a current npm
+        run: npm install -g npm@latest
+
+      - name: Check the tag matches package.json
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          tag="${GITHUB_REF#refs/tags/n8n-v}"
+          pkg="$(node -p "require('./package.json').version")"
+          if [ "$tag" != "$pkg" ]; then
+            echo "::error::tag n8n-v$tag does not match package.json version $pkg"
+            exit 1
+          fi
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint
+      - run: npm test
+
+      - name: Verify the tarball
+        run: |
+          npm pack --dry-run --json > /tmp/pack.json
+          node -e '
+            const raw = require("/tmp/pack.json");
+            const p = Array.isArray(raw) ? raw[0] : Object.values(raw)[0];
+            const files = p.files.map(f => f.path);
+            for (const want of ["package.json", "README.md", "LICENSE"]) {
+              if (!files.includes(want)) { console.error("missing: " + want); process.exit(1); }
+            }
+            if (!files.some(f => f.startsWith("dist/nodes/"))) { console.error("no dist/nodes"); process.exit(1); }
+            if (files.some(f => f.startsWith("test/") || f.endsWith(".ts") && !f.endsWith(".d.ts"))) { console.error("sources in tarball"); process.exit(1); }
+          '
+
+      - name: Publish with provenance
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
+        run: npm publish --provenance --access public
