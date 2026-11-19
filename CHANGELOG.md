@@ -4,6 +4,9 @@ All notable changes to the Writ integrations. Each entry names the integration i
 
 ## [Unreleased]
 
+- Both: CI runs on Node 22 and 24 and the packages require Node 22 or later (the n8n and Zapier
+  tooling no longer supports Node 20). The Zapier release workflow file now parses.
+
 ## n8n 0.1.0 and Zapier 0.1.0 (first release)
 
 - **n8n**: `Writ` node (Page: Scrape, Map Site; Crawl: Start, Get, Get Pages; Workflow: Run,

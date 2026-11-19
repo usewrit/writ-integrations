@@ -6,10 +6,10 @@ does, what an error says or how a webhook is verified belongs in both, in one pu
 ## Setup
 
 ```bash
-# n8n: Node 20+
+# n8n: Node 22+
 cd n8n && npm ci && npm run build && npm run lint && npm test
 
-# Zapier: Node 20+
+# Zapier: Node 22+
 cd zapier && npm ci && npm test && npx zapier-platform validate
 ```
 

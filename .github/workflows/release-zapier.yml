@@ -35,7 +35,9 @@ jobs:
       - run: npm ci
       - run: npm test
       - name: Link the app (.zapierapprc from the ZAPIER_APP_ID secret)
-        run: echo "{\"id\": ${ZAPIER_APP_ID}}" > .zapierapprc
+        run: |
+          [ -n "$ZAPIER_APP_ID" ] || { echo "::error::ZAPIER_APP_ID secret is not set"; exit 1; }
+          printf '{"id": %s}\n' "$ZAPIER_APP_ID" > .zapierapprc
         env:
           ZAPIER_APP_ID: ${{ secrets.ZAPIER_APP_ID }}
       - name: Push

@@ -27,7 +27,7 @@
     "directory": "n8n"
   },
   "engines": {
-    "node": ">=20.15"
+    "node": ">=22"
   },
   "scripts": {
     "build": "n8n-node build",
