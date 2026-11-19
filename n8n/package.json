@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-writ",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Writ for n8n: scrape and map pages, crawl sites, run your Writ workflows and monitors, and trigger on Writ events.",
   "license": "MIT",
   "homepage": "https://github.com/usewrit/writ-integrations/tree/main/n8n#readme",
@@ -40,7 +40,8 @@
     "prepublishOnly": "n8n-node prerelease"
   },
   "files": [
-    "dist"
+    "dist",
+    "!dist/**/*.tsbuildinfo"
   ],
   "n8n": {
     "n8nNodesApiVersion": 1,

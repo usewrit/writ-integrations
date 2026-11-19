@@ -4,6 +4,11 @@ All notable changes to the Writ integrations. Each entry names the integration i
 
 ## [Unreleased]
 
+## n8n 0.1.1
+
+- Published through npm trusted publishing (OIDC) from GitHub Actions, no token.
+- The package no longer ships the TypeScript build cache (55.6 kB to 25.3 kB).
+
 - Both: CI runs on Node 22 and 24 and the packages require Node 22 or later (the n8n and Zapier
   tooling no longer supports Node 20). The Zapier release workflow file now parses.
 - n8n: the release workflow publishes through npm trusted publishing, or with a one-time

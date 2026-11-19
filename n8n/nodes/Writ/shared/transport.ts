@@ -33,7 +33,7 @@ export type WritCredentialType = 'writApi' | 'writOAuth2Api';
 
 export const DEFAULT_BASE_URL = 'https://api.usewrit.app';
 
-const USER_AGENT = 'n8n-nodes-writ/0.1.0';
+const USER_AGENT = 'n8n-nodes-writ/0.1.1';
 const MAX_ATTEMPTS = 4;
 const BASE_DELAY_MS = 500;
 const MAX_DELAY_MS = 8_000;
